@@ -1,0 +1,31 @@
+package pages
+
+import "go-template/layouts"
+import "go-template/store"
+import "go-template/components"
+
+templ Home(u store.User) {
+    @layouts.Base() {
+        <div class={homeWrapper()}>
+            <div>
+                <div>
+                    Hello, <strong>{u.Email}</strong>!
+                </div>
+
+                <br />
+
+                <div>
+                    @components.Counter("0")
+                </div>
+            </div>
+        </div>
+    }
+}
+
+css homeWrapper() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    min-height: 100vh;
+}

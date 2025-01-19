@@ -1,4 +1,4 @@
-# go-template
+# templ-components
 
 A starter template for Go project using the following tools:
 

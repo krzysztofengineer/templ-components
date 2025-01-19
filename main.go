@@ -3,12 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"go-template/database"
-	"go-template/handler"
-	"go-template/static"
 	"log"
 	"log/slog"
 	"net/http"
+	"templ-components/handler"
+	"templ-components/static"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -23,8 +22,6 @@ var (
 func main() {
 	flag.Parse()
 
-	db := database.New(*dsn)
-
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)
@@ -34,12 +31,10 @@ func main() {
 	r.Use(middleware.Timeout(60 * time.Second))
 	r.Use(noCacheMiddleware)
 
-	homeHandler := handler.NewHome(db)
+	homeHandler := handler.NewHome()
 
 	r.Group(func(r chi.Router) {
 		r.Get("/", homeHandler.Index)
-		r.Post("/increase", homeHandler.Increase)
-		r.Post("/decrease", homeHandler.Decrease)
 	})
 
 	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServerFS(static.FS)))
